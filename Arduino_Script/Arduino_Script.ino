@@ -111,7 +111,7 @@ void loop() {
   else
   {
     delay(100);
-    displaystate = 1;
+    displaystate = 99;
   }
 
 
@@ -119,45 +119,44 @@ void loop() {
   {
     case 0:
     show_info(0);
-    curdisplaypage = 0;
+      displaystate = 0;
     oldstate = initial;
     break;
     case 1:
-    curdisplaypage = 1;
+      displaystate = 1;
     show_info(1);
-    //displaystate = 0;
     oldstate = initial;
     break;
     case 2:
-    curdisplaypage = 2;
+      displaystate = 2;
     show_info(2);
     oldstate = initial;
     break;
     case 3:
-    curdisplaypage = 3;
+      displaystate = 3;
     show_info(3);
     oldstate = initial;
     break;
     case 4:
     show_info(4);
-    curdisplaypage = 4;
+      displaystate = 4;
     oldstate = initial;
     break;
     default:
-    curdisplaypage = 0;
+      displaystate = 0;
     show_info(0);
     oldstate = 0;
     break;
   }  
 
   //Serial.println(displaystate);
-  //Serial.println(curdisplaypage);
-  Serial.println(initial);
+  Serial.println(curdisplaypage);
+  //Serial.println(initial);
 }
 
 void show_info(int displayPage) {
-  if (displaystate != curdisplaypage)
-  {
+  //if (displaystate != curdisplaypage)
+  //{
     if (displayPage == 0)
     {
       display.clearDisplay();
@@ -167,7 +166,7 @@ void show_info(int displayPage) {
       display.println("20:48");
       display.display();
 
-      displaystate = 0;
+    curdisplaypage = 0;
     }
     else if (displayPage == 1)
     {
@@ -191,9 +190,9 @@ void show_info(int displayPage) {
     display.print("V");
     display.display();
 
-    delay(50);
+    //delay(90);
 
-      displaystate = 0;
+      curdisplaypage = 1;
     }
     else if (displayPage == 2)
     {
@@ -206,7 +205,7 @@ void show_info(int displayPage) {
       display.println("0");
       display.display();
 
-      displaystate = 2;
+      curdisplaypage = 2;
     }
     else if (displayPage == 3)
     {
@@ -219,7 +218,7 @@ void show_info(int displayPage) {
       display.println("0");
       display.display();
 
-      displaystate = 3;
+      curdisplaypage = 3;
     }    
     else if (displayPage == 4)
     {
@@ -232,11 +231,11 @@ void show_info(int displayPage) {
       display.println("0");
       display.display();
 
-      displaystate = 4;
+      curdisplaypage = 4;
     }   
-  }
-  else
-  {
+  //}
+  //else
+  //{
     //nothing Todo
-  }
+  //}
 }
