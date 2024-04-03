@@ -170,27 +170,26 @@ void show_info(int displayPage) {
     }
     else if (displayPage == 1)
     {
-    //displaystate = 0;
-    int volt = analogRead(A0);// read the input
-    double voltage = map(volt, 0, 1023, 0, 2500) ; // map 0-1023 to 0-2500 and add correction offset
+      //displaystate = 0;
+      int volt = analogRead(A0);// read the input
+      double voltage = map(volt, 0, 1023, 0, 2500) ; // map 0-1023 to 0-2500 and add correction offset
 
-    voltage /= 100; // divide by 100 to get the decimal values
+      voltage /= 100; // divide by 100 to get the decimal values
 
-    //display on OLED
-    display.setCursor(0, 10);
-    display.setTextSize(3);
-    display.clearDisplay();
-    display.print("Batt. ");
-    display.setTextSize(2);
-    display.setCursor(0, 35);
-    display.print(voltage);
-    display.print(" ");
-    display.setTextSize(2);
-    display.setCursor(60, 35);
-    display.print("V");
-    display.display();
+      display.setCursor(0, 10);
+      display.setTextSize(3);
+      display.clearDisplay();
+      display.print("Batt. ");
+      display.setTextSize(2);
+      display.setCursor(0, 35);
+      display.print(voltage);
+      display.print(" ");
+      display.setTextSize(2);
+      display.setCursor(60, 35);
+      display.print("V");
+      display.display();
 
-    //delay(90);
+      //delay(20);
 
       curdisplaypage = 1;
     }
