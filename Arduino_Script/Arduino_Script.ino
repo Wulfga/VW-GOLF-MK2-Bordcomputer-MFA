@@ -9,8 +9,12 @@ int initial = 0;
 int oldstate = 0;
 int buttonstate = 0;
 
-int displaystate = 1;
+int displaystate = 99;
 int displaychange = 0;
+int curdisplaypage = 0;
+
+int offset = 20;// set the correction offset value
+
 
 /* Uncomment the initialize the I2C address , uncomment only one, If you get a totally blank screen try the other*/
 #define i2c_Address 0x3c //initialize with the I2C addr 0x3C Typically eBay OLED's
@@ -90,64 +94,104 @@ void setup()   {
   display.clearDisplay();
   display.display();
 
+
 }
 
 
 void loop() {
 
-buttonstate = digitalRead(buttonPin);
+  buttonstate = digitalRead(buttonPin);
   if (buttonstate == HIGH)
   {
-    delay (50);
-    buttonstate = digitalRead(buttonPin);
-    if (buttonstate == LOW)
+      delay (50);
+      buttonstate = digitalRead(buttonPin);
+      if (buttonstate == LOW)
       initial = oldstate + 1;
-    //displaystate = 1;
     }
-    else
-    {
-      delay(100);
-      //displaystate = 0;
-    }
+  else
+  {
+    delay(100);
+    displaystate = 1;
+  }
+
 
   switch (initial)
   {
+    case 0:
+    show_info(0);
+    curdisplaypage = 0;
+    oldstate = initial;
+    break;
     case 1:
+    curdisplaypage = 1;
     show_info(1);
+    //displaystate = 0;
     oldstate = initial;
     break;
     case 2:
+    curdisplaypage = 2;
     show_info(2);
     oldstate = initial;
     break;
     case 3:
+    curdisplaypage = 3;
     show_info(3);
     oldstate = initial;
     break;
     case 4:
     show_info(4);
+    curdisplaypage = 4;
     oldstate = initial;
     break;
     default:
+    curdisplaypage = 0;
     show_info(0);
     oldstate = 0;
     break;
   }  
+
   //Serial.println(displaystate);
+  //Serial.println(curdisplaypage);
+  Serial.println(initial);
 }
 
 void show_info(int displayPage) {
-  if (displaystate == 1)
+  if (displaystate != curdisplaypage)
   {
-    Serial.println("1Displaystate: " + displaystate);
-    if (displayPage == 1)
+    if (displayPage == 0)
     {
       display.clearDisplay();
       //display.setTextColor(SH110X_WHITE);
-      //display.setCursor(0, 0);
-      display.println("Spannung");
-      display.println("0.0V");
+      display.setTextSize(4);
+      display.setCursor(0, 0);
+      display.println("20:48");
       display.display();
+
+      displaystate = 0;
+    }
+    else if (displayPage == 1)
+    {
+    //displaystate = 0;
+    int volt = analogRead(A0);// read the input
+    double voltage = map(volt, 0, 1023, 0, 2500) ; // map 0-1023 to 0-2500 and add correction offset
+
+    voltage /= 100; // divide by 100 to get the decimal values
+
+    //display on OLED
+    display.setCursor(0, 10);
+    display.setTextSize(3);
+    display.clearDisplay();
+    display.print("Batt. ");
+    display.setTextSize(2);
+    display.setCursor(0, 35);
+    display.print(voltage);
+    display.print(" ");
+    display.setTextSize(2);
+    display.setCursor(60, 35);
+    display.print("V");
+    display.display();
+
+    delay(50);
 
       displaystate = 0;
     }
@@ -155,15 +199,41 @@ void show_info(int displayPage) {
     {
       display.clearDisplay();
       //display.setTextColor(SH110X_WHITE);
-      //display.setCursor(0, 0);
-      display.println("Öl Temperatur");
-      display.println("0°");
+      display.setTextSize(2);
+      display.setCursor(0, 0);
+      display.println("Oel");
+      display.setTextSize(3);
+      display.println("0");
       display.display();
 
-      displaystate = 0;
+      displaystate = 2;
     }
+    else if (displayPage == 3)
+    {
+      display.clearDisplay();
+      //display.setTextColor(SH110X_WHITE);
+      display.setTextSize(2);
+      display.setCursor(0, 0);
+      display.println("Kuehler");
+      display.setTextSize(3);
+      display.println("0");
+      display.display();
 
-    
+      displaystate = 3;
+    }    
+    else if (displayPage == 4)
+    {
+      display.clearDisplay();
+      //display.setTextColor(SH110X_WHITE);
+      display.setTextSize(2);
+      display.setCursor(0, 0);
+      display.println("Temp");
+      display.setTextSize(3);
+      display.println("0");
+      display.display();
+
+      displaystate = 4;
+    }   
   }
   else
   {
