@@ -14,9 +14,9 @@ Upcoming functions:
 
 Hardware:
 
-CPU: Arduino UNO
-Display: 1.3" SSH1106 Oled Display (I2C)
-Batterysensor: DC0-25V Voltage Sensor (I2C)
+- CPU: Arduino UNO
+- Display: 1.3" SSH1106 Oled Display (I2C)
+- Batterysensor: DC0-25V Voltage Sensor (I2C)
 
 Pinout:
 
