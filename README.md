@@ -17,3 +17,19 @@ Hardware:
 CPU: Arduino UNO
 Display: 1.3" SSH1106 Oled Display (I2C)
 Batterysensor: DC0-25V Voltage Sensor (I2C)
+
+Pinout:
+
+Voltage Sensor:
+-   : GND
+S   : A0
+
+Oled Display:
+-   : GND
++   : 5V
+SCK : A5
+SDA : A4
+
+ Button:
+-   : GND
+S   : D4 
